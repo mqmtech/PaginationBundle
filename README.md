@@ -8,7 +8,7 @@ What is MQMPaginationBundle ?
 
 This bundle is part of [MQMShoppingBox][1], a bunch of bundles to help you build e-commerce sites out of the box.
 
-Check [MQMShoppingBox][1] for see this bundle on action.
+Check [ShoppingBox] for see this bundle on action.
 
 Requirements
 ------------
@@ -22,19 +22,19 @@ Installation
 
 Add LansolePagesBundle to your vendors:
 	
-	You have two options, by modifying your dep file or creating a submodule
+    You have two options, by modifying your dep file or creating a submodule
 	
-	- Option 1: Editing deps file:
-	//deps	
-	// ...
-	[PaginationBundle]
-    git=http://github.com/mqmtech/PaginationBundle.git
-    target=/bundles/MQM/Bundle/PaginationBundle
+        - Option 1: Editing deps file:
+            //deps	
+            // ...
+            [PaginationBundle]
+            git=http://github.com/mqmtech/PaginationBundle.git
+            target=/bundles/MQM/Bundle/PaginationBundle
 	
-	$ php bin/vendors update
+            $ php bin/vendors update
 
-	- Option 2: submodule command
-    $ git submodule add git://github.com/mqmtech/PaginationBundle.git vendor/bundles/MQM/Bundle/PaginationBundle
+        - Option 2: submodule command
+            $ git submodule add git://github.com/mqmtech/PaginationBundle.git vendor/bundles/MQM/Bundle/PaginationBundle
 
 Add PaginationBundle to your autoload:
 
@@ -91,10 +91,6 @@ Templates
 
 Extra
 -----
-
-You can use the fixtures included on the bundle using the [DoctrineFixturesBundle][8]. To load it, just run the follow command:
-
-    $ ./app/console doctrine:fixture:load --fixtures=vendor/bundles/Lansole/PagesBundle/DataFixtures/
 
 How to use
 ----------
