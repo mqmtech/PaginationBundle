@@ -13,13 +13,9 @@
     </parameters>
 
     <services>
-        <service id="mqm_pagination.page_factory" class="%mqm_pagination.page_factory.class%" public="true"
-            scope="request">
-            <argument type="service" id="mqm_pagination.helper" />
-            <argument type="service" id="router" />
-        </service>
+        <service id="mqm_pagination" alias="mqm_pagination.pagination"/> <!-- user-friendly name that redirects to the main service of the bundle, the pagination service -->
         
-        <service id="mqm_pagination" class="%mqm_pagination.pagination.class%" public="true"
+        <service id="mqm_pagination.pagination" class="%mqm_pagination.pagination.class%" public="true"
                 scope="request"
                 >
             <argument type="service" id="mqm_pagination.helper" />
@@ -28,6 +24,12 @@
             <call method="setPageLength">
                 <argument>%mqm_pagination.page_length%</argument>
             </call>
+        </service>
+        
+        <service id="mqm_pagination.page_factory" class="%mqm_pagination.page_factory.class%" public="true"
+            scope="request">
+            <argument type="service" id="mqm_pagination.helper" />
+            <argument type="service" id="router" />
         </service>
         
         <service id="mqm_pagination.helper" class="%mqm_pagination.helper.class%" public="true"
