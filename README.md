@@ -20,7 +20,7 @@ This bundle takes advantages of some libraries and bundles. You will need:
 Installation
 ------------
 
-Add LansolePagesBundle to your vendors:
+Add MQMPaginationBundle to your vendors:
 	
     You have two options, by modifying your dep file or creating a submodule
 	
