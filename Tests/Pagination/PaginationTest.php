@@ -28,8 +28,8 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->mockHelper();
         
         $this->assertTrue($helperMock instanceof \MQM\Bundle\PaginationBundle\Helper\Helper);
-        //$this->assertEquals($helperMock->getURI(), '/path/mock');
-        //$this->assertEquals($helperMock->toQueryString(array('a' => 'b')), '?query=value_mock');
+        $this->assertEquals($helperMock->getURI(), '/path/mock');
+        $this->assertEquals($helperMock->toQueryString(array('a' => 'b')), '?query=value_mock');
         
     }
     
