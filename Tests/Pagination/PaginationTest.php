@@ -28,7 +28,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->mockHelper();
         
         $this->assertTrue($helperMock instanceof \MQM\Bundle\PaginationBundle\Helper\Helper);
-        $this->assertEquals($helperMock->getURI(), '/path/mock');
+        //$this->assertEquals($helperMock->getURI(), '/path/mock');
         //$this->assertEquals($helperMock->toQueryString(array('a' => 'b')), '?query=value_mock');
         
     }
@@ -80,7 +80,6 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
                     ->method('getURI')
                     ->will($this->returnValue('/path/mock'));
         
-        /*
         $helperMock->expects($this->any())
                     ->method('toQueryString')
                     ->will($this->returnValue('?query=value_mock'));
@@ -88,7 +87,6 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $helperMock->expects($this->any())
                     ->method('getParametersByRequestMethod')
                     ->will($this->returnValue(new \Symfony\Component\HttpFoundation\ParameterBag()));
-         */
         
         return $helperMock;
     }
