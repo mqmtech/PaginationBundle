@@ -8,8 +8,8 @@ env:
 
 before_script:
   - wget http://getcomposer.org/composer.phar
-  - cp -ap Tests/composer.json.dist ./composer.json
-  - php composer.phar install
+  #- cp -ap Tests/composer.json.dist ./composer.json
+  - php composer.phar install ./Tests/composer.json.dist
 
 notifications:
   email:
