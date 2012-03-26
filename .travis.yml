@@ -7,7 +7,6 @@ env:
   - SYMFONY_VERSION=origin/master
 
 before_script:
-  - mkdir -p vendor
   - php Tests/vendors.php.dist
 
 notifications:
