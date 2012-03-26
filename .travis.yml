@@ -7,14 +7,9 @@ env:
   - SYMFONY_VERSION=origin/master
 
 before_script:
-  - pyrus install phpunit/DbUnit
-  - mkdir -p app/cache app/logs  
   - php Tests/vendors.php
-
-script: "phpunit"
 
 notifications:
   email:
     on_failure: always
-    on_success: change
-    
+    on_success: change  
