@@ -11,6 +11,8 @@ before_script:
   - cp -ap Tests/composer.json.dist ./composer.json
   - php composer.phar install
   - ls vendor
+  - ls vendor/symfony
+  - ls vendor/symfony/src
 
 notifications:
   email:
