@@ -7,9 +7,8 @@ env:
   - SYMFONY_VERSION=origin/master
 
 before_script:
-  - php Tests/vendors.php
+  - php vendor/vendors.php
 
 notifications:
   email:
-    on_failure: always
-    on_success: change  
+    - gdeveloperaccount@gmail.com
