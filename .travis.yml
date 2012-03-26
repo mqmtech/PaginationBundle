@@ -10,10 +10,6 @@ before_script:
   - wget http://getcomposer.org/composer.phar
   - cp -ap Tests/composer.json.dist ./composer.json
   - php composer.phar install
-  - ls vendor
-  - ls vendor/symfony
-  - ls vendor/symfony/symfony
-  - ls vendor/symfony/symfony/src
 
 notifications:
   email:
