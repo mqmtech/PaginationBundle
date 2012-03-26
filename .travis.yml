@@ -12,7 +12,7 @@ before_script:
   - php composer.phar install
   - ls vendor
   - ls vendor/symfony
-  - ls vendor/symfony/src
+  - ls vendor/symfony/symfony
 
 notifications:
   email:
