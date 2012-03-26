@@ -13,6 +13,7 @@ before_script:
   - ls vendor
   - ls vendor/symfony
   - ls vendor/symfony/symfony
+  - ls vendor/symfony/symfony/src
 
 notifications:
   email:
