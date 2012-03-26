@@ -34,8 +34,6 @@ AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 require_once __DIR__.'/../vendor/swiftmailer/swiftmailer/lib/classes/Swift.php';
 Swift::registerAutoload(__DIR__.'/../vendor/swiftmailer/swiftmailer/lib/swift_init.php');
 
-set_include_path($vendorDir.'/phing/classes'.PATH_SEPARATOR.get_include_path());
-
 spl_autoload_register(function($class) {
     if (0 === strpos($class, 'MQM\\Bundle\\PaginationBundle\\')) {
         $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 3)).'.php';
