@@ -16,7 +16,7 @@ if (isset($argv[1])) {
     $_SERVER['SYMFONY_VERSION'] = $argv[1];
 }
 
-$vendorDir = __DIR__/../vendor/;
+$vendorDir = __DIR__.'/../vendor/';
 $deps = array(
     array('symfony', 'git://github.com/symfony/symfony.git', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
     array('twig', 'git://github.com/fabpot/Twig.git', 'origin/master'),
