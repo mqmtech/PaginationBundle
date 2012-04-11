@@ -1,14 +1,7 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 namespace MQM\Bundle\PaginationBundle\Pagination;
 
-/**
- *
- * @author mqmtech
- */
 interface PageInterface {
     
     /**
@@ -52,10 +45,7 @@ interface PageInterface {
     public function setIsCurrent($isCurrent);
     
     /**
-     * return bool
+     * return boolean
      */
-    public function getIsCurrent();
-    
+    public function getIsCurrent();    
 }
-
-?>

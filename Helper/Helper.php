@@ -6,8 +6,8 @@ use MQM\Bundle\PaginationBundle\Helper\HelperInterface as PaginationHelperInterf
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class Helper implements PaginationHelperInterface{
-    
+class Helper implements PaginationHelperInterface
+{    
     /**
      *
      * @var Request $request
@@ -21,12 +21,10 @@ class Helper implements PaginationHelperInterface{
 
     public function toQueryString($array)
     {        
-        if($array == NULL){
+        if ($array == NULL) {
             return NULL;
-        }
-        
-        $querystring = "";
-        
+        }        
+        $querystring = "";        
         $count = 0;
         foreach ($array as $key => $value) {
             if($count == 0){
@@ -34,10 +32,8 @@ class Helper implements PaginationHelperInterface{
             }
             else{
                 $querystring.="&";
-            }
-            
-            $querystring .=$key ."=".$value;
-                    
+            }            
+            $querystring .=$key ."=".$value;                    
             $count++;
         }
         
@@ -74,12 +70,10 @@ class Helper implements PaginationHelperInterface{
     
     public function getAllParametersFromRequestAndQuery()
     {
-        $request = $this->getRequest();
-        
+        $request = $this->getRequest();        
         if ($request  == null) {
             return null;
-        }
-        
+        }        
         $parameters = array();
         $paramRequest = $request->request->all();
         $paramQuery = $request->query->all();
@@ -88,14 +82,13 @@ class Helper implements PaginationHelperInterface{
         return $parameters;
     }
     
-    public function getRequest() {
+    protected function getRequest()
+    {
         return $this->request;
     }
 
-    public function setRequest($request) {
+    protected function setRequest($request)
+    {
         $this->request = $request;
     }
-
-
-
 }

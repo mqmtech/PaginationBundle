@@ -4,19 +4,21 @@ namespace MQM\Bundle\PaginationBundle\Pagination;
 
 use MQM\Bundle\PaginationBundle\Pagination\PageInterface;
 
-/**
- * Description of PaginationInterface
- *
- * @author mqmtech
- */
-interface PaginationInterface {
-    
+interface PaginationInterface
+{    
     /**
      * Initialize pagination
      * 
      * @param int $totalItems
      */
-    public function init($totalItems = null);
+    public function init($totalItems);
+    
+    /**
+     * Updates pagination
+     * 
+     * @param int $totalItems
+     */
+    public function update($totalItems);
     
     /**
      * @return array<PageInterface>
@@ -39,40 +41,31 @@ interface PaginationInterface {
     public function getLimitPerPage();
     
     /**
-     * @param integer $totalItems
+     * @return integer 
      */
-    public function setTotalItems($totalItems);
-    
-    /**
-     * @return integer $totalItems
-     */
-    public function getTotalItems();
-    
+    public function getStartRange();
+            
     /**
      * @return integer 
      */
-    public function getPagesQuantity();
+    public function getEndRange();
     
     /**
-     *
      * @return PageInterface
      */
     public function getPrevPage();
     
     /**
-     *
      * @return PageInterface
      */
     public function getNextPage();
     
     /**
-     *
      * @return PageInterface
      */
     public function getFirstPage();
     
     /**
-     *
      * @return PageInterface
      */
     public function getLastPage();

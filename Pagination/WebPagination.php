@@ -4,43 +4,38 @@ namespace MQM\Bundle\PaginationBundle\Pagination;
 
 use MQM\Bundle\PaginationBundle\Helper\HelperInterface;
 use MQMTech\ToolsBundle\Service\Utils;
-/**
- * Description of WebPagination
- *
- * @author mqmtech
- */
+use Symfony\Component\Routing\RouterInterface;
+
 class WebPagination implements PaginationInterface
 {
-    const DEF_PAGE_LENGTH = 10;
-    const DEF_TOTAL_ITEMS = 0;
-    const DEF_CURRENT_PAGE= 0;
-    const DEF_CURRENT_OFFSET= 0;
     const REQUEST_QUERY_PARAM= 'page';
-    const DEF_RANGE_PAGINATION = 3; //+ - 3
+    const PAGINATION_RANGE = 3;
+    const CURRENT_PAGE_INDEX_DEFAULT = 0;
+    const LIMIT_PER_PAGE_DEFAULT = 10;
+    
+    /**
+     *
+     * @var integer $currentPageIndex
+     */
+    private $currentPageIndex = self::CURRENT_PAGE_INDEX_DEFAULT;
     
     /**
      *
      * @var integer $length
      */
-    private $limitPerPage = self::DEF_PAGE_LENGTH;
+    private $limitPerPage = self::LIMIT_PER_PAGE_DEFAULT;
     
     /**
      *
      * @var array $pages
      */
-    private $pages;
-    
-    /**
-     *
-     * @var int $currentPageIndex
-     */
-    private $currentPageIndex = self::DEF_CURRENT_PAGE;
+    private $pages = array();    
     
     /**
      *
      * @var integer $totalItems
      */
-    private $totalItems = self::DEF_TOTAL_ITEMS;
+    private $totalItems = 0;
     
     /**
      *
@@ -56,6 +51,12 @@ class WebPagination implements PaginationInterface
     
     /**
      *
+     * @var RouterInterface
+     */
+    private $router;
+    
+    /**
+     *
      * @var string
      */
     private $responsePath;
@@ -66,74 +67,93 @@ class WebPagination implements PaginationInterface
      */
     private $responseParameters;
     
-    public function __construct(HelperInterface $helper, WebPageFactory $pageFactory, $responsePath=null, $responseParameters = null)
+    public function __construct(HelperInterface $helper, WebPageFactory $pageFactory, RouterInterface $router, $responsePath=null, $responseParameters = null)
     {
         $this->setHelper($helper);
         $this->setPageFactory($pageFactory);
         $this->setResponsePath($responsePath);
         $this->setResponseParameters($responseParameters);
+        $this->setRouter($router);
     }
     
-    /**
-     *
-     * @param array $totalItems
-     * @return WebPagination 
-     */
+    public function update($totalItems = null) 
+    {
+        unset($this->pages);
+        $this->pages = array();
+        
+        return $this->init($totalItems);        
+    }
+    
     public function init($totalItems = null) 
     {
         if ($totalItems != null) {
             $this->setTotalItems($totalItems);
         }        
         $this->generatePages();
-        $this->determineTheCurrentPage();
+        $this->determineCurrentPage();
         
         return $this;        
     }
     
     private function generatePages()
     {
-        $pagesCount = $this->getTotalItems() / $this->getLimitPerPage();
-        $pagesCount = floor($pagesCount);        
-        if ($this->getTotalItems() > ($pagesCount * $this->getLimitPerPage())) {
-            $pagesCount+=1;
+        $pagesQuantity = $this->getTotalItems() / $this->getLimitPerPage();
+        $pagesQuantity = floor($pagesQuantity);        
+        if ($this->getTotalItems() > ($pagesQuantity * $this->getLimitPerPage())) {
+            $pagesQuantity+=1;
         }
-
-        for ($pageIndex = 0; $pageIndex < $pagesCount; $pageIndex++) {
-            $offset = $this->getLimitPerPage() * $pageIndex;
-            $limit = $offset + $this->getLimitPerPage();
-            if ($limit > $this->getTotalItems()) {
-                $limit = $this->getTotalItems();
-            }            
-            $page = $this->pageFactory->buildPage();
-            $page->setId($pageIndex);
-            $page->setOffset($offset);
-            $page->setLimit($limit);
-            $page->setResponsePath($this->getResponsePath());
-            $responseParameters = $this->getResponseParameters();
-            if ($responseParameters == null) {
-                $responseParameters = $this->getHelper()->getAllParametersFromRequestAndQuery();
-            }
-            $page->setResponseParameters($responseParameters);
-            
-            if ($this->pages == null) {
-                $this->pages = array();
-            }
+        for ($pageIndex = 0; $pageIndex < $pagesQuantity; $pageIndex++) {
+            $page = $this->generatePageByPageId($pageIndex);            
             $this->pages[$pageIndex] = $page;            
         }
     }
     
-    private function determineTheCurrentPage()
+    private function generatePageByPageId($pageId)
+    {
+        $offset = $this->getLimitPerPage() * $pageId;
+        $limit = $offset + $this->getLimitPerPage();
+        if ($limit > $this->getTotalItems()) {
+            $limit = $this->getTotalItems();
+        }            
+        $page = $this->pageFactory->buildPage();
+        $page->setId($pageId);
+        $page->setOffset($offset);
+        $page->setLimit($limit);
+        $url = $this->generateURLByPageId($pageId);
+        $page->setURL($url);
+        
+        return $page;
+    }
+    
+    private function generateURLByPageId($pageId)
+    {
+        $url = "no_url";
+        $parameters = $this->getResponseParameters();
+        if ($parameters == null) {
+            $parameters = $this->getHelper()->getAllParametersFromRequestAndQuery();
+        }
+        $parameters[WebPagination::REQUEST_QUERY_PARAM] = $pageId;
+        if ($this->getResponsePath() == null) {
+            $path = $this->getHelper()->getURI();
+            $url = $path . $this->getHelper()->toQueryString($parameters);
+        }
+        else {
+            $url = $this->getRouter()->generate($this->getResponsePath(), $parameters);
+        }
+        
+        return $url;
+    }
+    
+    private function determineCurrentPage()
     {
         if ($this->getPagesQuantity() > 0) {
-            //Grab Current WebPage from Request
             $query = $this->getHelper()->getParametersByRequestMethod();       
-            $currentPage = $query->get(self::REQUEST_QUERY_PARAM) == null ? self::DEF_CURRENT_PAGE : $query->get(self::REQUEST_QUERY_PARAM);
-            //End grabbing curent page from Request
+            $currentPage = $query->get(self::REQUEST_QUERY_PARAM) == null ? self::CURRENT_PAGE_INDEX_DEFAULT : $query->get(self::REQUEST_QUERY_PARAM);
             $lastPage = count($this->getPages()) -1;
             if ($currentPage > $lastPage) {
                 $currentPage = $lastPage;
             }
-            else if($currentPage <= 0){
+            else if ($currentPage <= 0) {
                 $currentPage = 0;
             }
             if (isset ($this->pages[$currentPage])) {
@@ -148,7 +168,6 @@ class WebPagination implements PaginationInterface
         if ($array == null) {
             return null;
         }
-        
         $currentPage = null;
         if (isset($this->pages[$this->getCurrentPageIndex()])) {
              $currentPage = $this->pages[$this->getCurrentPageIndex()];
@@ -156,24 +175,22 @@ class WebPagination implements PaginationInterface
         else {
             return $array;
         }
-                
         if (is_array($array)) {
              $array = array_slice($array, $currentPage->getOffset(), $this->getLimitPerPage());
         }
         else if (is_a($array, 'Doctrine\ORM\PersistentCollection')) {
                 $array->slice($currentPage->getOffset(), $this->getLimitPerPage());
              }
-                else {
-                    //Do nothing
-                 }
+            else {
+                //Do nothing
+                }
                  
         return $array;
     }
     
     public function getPrevPage()
     {
-        $currentPageIndex = $this->getCurrentPageIndex();
-        
+        $currentPageIndex = $this->getCurrentPageIndex();        
         if ($currentPageIndex <= 0 ) {
             return $this->pages[$currentPageIndex];
         }
@@ -184,12 +201,11 @@ class WebPagination implements PaginationInterface
     
     public function getNextPage()
     {
-        $currentPageIndex = $this->getCurrentPageIndex();
-        
-        if( $currentPageIndex >= count($this->getPages()) -1 ){
+        $currentPageIndex = $this->getCurrentPageIndex();        
+        if ($currentPageIndex >= $this->getPagesQuantity() -1) {
             return $this->pages[$currentPageIndex];
         }
-        else{
+        else {
             return $this->pages[$currentPageIndex + 1];
         }        
     }
@@ -207,7 +223,7 @@ class WebPagination implements PaginationInterface
     
     public function getStartRange()
     {
-        $start = $this->getCurrentPageIndex() - self::DEF_RANGE_PAGINATION;
+        $start = $this->getCurrentPageIndex() - self::PAGINATION_RANGE;
         if ($start < 0 ) {
             $start = 0;
         }
@@ -219,7 +235,7 @@ class WebPagination implements PaginationInterface
     {
         $start = $this->getStartRange();        
         $length = $this->getPagesQuantity();
-        $end = $start + (self::DEF_RANGE_PAGINATION * 2);
+        $end = $start + (self::PAGINATION_RANGE * 2);
         if ($end >= $length) {
             $end = $length - 1;
         }
@@ -227,9 +243,6 @@ class WebPagination implements PaginationInterface
         return $end;
     }
     
-    /**
-     * @return integer 
-     */
     public function getPagesQuantity()
     {
         if ($this->pages == null) {
@@ -249,26 +262,6 @@ class WebPagination implements PaginationInterface
         return null;
     }
     
-    public function getResponsePath() 
-    {
-        return $this->responsePath;
-    }
-
-    public function setResponsePath($responsePath) 
-    {
-        $this->responsePath = $responsePath;
-    }
-
-    public function getResponseParameters() 
-    {
-        return $this->responseParameters;
-    }
-
-    public function setResponseParameters($responseParameters) 
-    {
-        $this->responseParameters = $responseParameters;
-    }
-    
     public function setLimitPerPage($limitPerPage) 
     {
         $this->limitPerPage = $limitPerPage;
@@ -284,17 +277,37 @@ class WebPagination implements PaginationInterface
         return $this->pages;
     }    
 
-    public function getTotalItems() 
+    protected function getTotalItems() 
     {
         return $this->totalItems;
     }
 
-    public function setTotalItems($totalItems) 
+    protected function setTotalItems($totalItems) 
     {
         $this->totalItems = $totalItems;
     }
     
-    public function getCurrentPageIndex() 
+    protected function getResponsePath() 
+    {
+        return $this->responsePath;
+    }
+
+    protected function setResponsePath($responsePath) 
+    {
+        $this->responsePath = $responsePath;
+    }
+
+    protected function getResponseParameters() 
+    {
+        return $this->responseParameters;
+    }
+
+    protected function setResponseParameters($responseParameters) 
+    {
+        $this->responseParameters = $responseParameters;
+    }
+    
+    protected function getCurrentPageIndex() 
     {
         return $this->currentPageIndex;
     }
@@ -304,16 +317,28 @@ class WebPagination implements PaginationInterface
         $this->currentPageIndex = $pageIndex;
     }
 
-    protected function getHelper() {
+    protected function getHelper()
+    {
         return $this->helper;
     }
 
-    protected function setHelper($helper) {
+    protected function setHelper($helper)
+    {
         $this->helper = $helper;
     }
     
     protected function setPageFactory(PageFactoryInterface $pageFactory) 
     {
         $this->pageFactory = $pageFactory;
+    }
+    
+    protected function getRouter()
+    {
+        return $this->router;
+    }
+
+    protected function setRouter($router)
+    {
+        $this->router = $router;
     }
 }

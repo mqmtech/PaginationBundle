@@ -3,59 +3,25 @@
 namespace MQM\Bundle\PaginationBundle\Pagination;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use MQM\Bundle\PaginationBundle\Helper\HelperInterface;
-/**
- * Description of WebPage
- *
- * @author mqmtech
- */
+
 class WebPage implements PageInterface
 {    
-    const DEF_ID = 0;
-    const DEF_OFFSET = 0;
-    const DEF_LIMIT = 0;
-    const DEF_IS_CURRENT = false;
+    private $id = 0;
+    private $offset = null;
+    private $limit = null;
+    private $isCurrent = false;
+    private $url;
     
-    private $id = self::DEF_ID;
-    private $offset = self::DEF_OFFSET;
-    private $limit = self::DEF_LIMIT;
-    private $isCurrent = self::DEF_IS_CURRENT;
-    private $responseParameters;
-    private $responsePath;    
-    private $helper;
-    private $router;
-    
-    public function __construct(HelperInterface $helper, Router $router, $responsePath=null, $responseParameters=null)
-    {
-        $this->setHelper($helper);
-        $this->setRouter($router);
-        $this->setResponsePath($responsePath);
-        $this->setResponseParameters($responseParameters);
-    }
-        
     public function getURL()
-    {        
-        $url = "no_url";
-        $parameters = null;
-        if ($this->getResponseParameters() != null) {
-            $parameters = $this->getResponseParameters();
-        }
-        else {
-            $parameters = $this->getHelper()->getAllParametersFromRequestAndQuery();
-        }
-
-        $parameters[WebPagination::REQUEST_QUERY_PARAM]= $this->getId();
-
-        if ($this->getResponsePath() == null) {
-            $path = $this->getHelper()->getURI();
-            $url = $path . $this->getHelper()->toQueryString($parameters);
-        }
-        else {
-            $url = $this->getRouter()->generate($this->getResponsePath(), $parameters);
-        }
-        
-        return $url;
+    {
+        return $this->url;
+    }
+    
+    public function setURL($url)
+    {
+        $this->url = $url;
     }
     
     public function getRange()
@@ -102,47 +68,8 @@ class WebPage implements PageInterface
         $this->limit = $limit;
     }
     
-    public function setOffset($offset) {
+    public function setOffset($offset)
+    {
         $this->offset = $offset;
-    }
-    
-    public function getResponseParameters()
-    {
-        return $this->responseParameters;
-    }
-
-    public function setResponseParameters($responseParameters)
-    {
-        $this->responseParameters = $responseParameters;
-    }
-
-    public function getResponsePath()
-    {
-        return $this->responsePath;
-    }
-
-    public function setResponsePath($responsePath)
-    {
-        $this->responsePath = $responsePath;
-    }
-    
-    public function getHelper()
-    {
-        return $this->helper;
-    }
-
-    public function setHelper($helper)
-    {
-        $this->helper = $helper;
-    }
-
-    protected function getRouter()
-    {
-        return $this->router;
-    }
-
-    protected function setRouter($router)
-    {
-        $this->router = $router;
     }
 }

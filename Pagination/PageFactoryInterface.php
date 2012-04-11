@@ -2,16 +2,12 @@
 
 namespace MQM\Bundle\PaginationBundle\Pagination;
 
-/**
- *
- * @author mqmtech
- */
-interface PageFactoryInterface {
-   
+use MQM\Bundle\PaginationBundle\Pagination\PaginationInterface;
+
+interface PageFactoryInterface
+{   
     /**
      * @return PaginationInterface
      */
     public function buildPage();    
 }
-
-?>
