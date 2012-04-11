@@ -22,6 +22,11 @@ interface PageInterface {
     public function getId();
     
     /**
+     * @return array 
+     */
+    public function getRange();
+    
+    /**
      * @param int $offset
      */
     public function setOffset($offset);

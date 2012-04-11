@@ -38,20 +38,18 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $webPaginationManager = $this->getWebPagination();
         $this->assertNotNull($webPaginationManager);
         
-        $webPaginationManager->calcPagination(30);    
+        $webPaginationManager->init(30);    
 
         $this->assertEquals(0, $webPaginationManager->getCurrentPageIndex());
         $this->assertEquals(10, $webPaginationManager->getPageLength());
         
         $webPaginationManager->setPageLength(6);
-        
         $firstPage = $webPaginationManager->getFirstPage();
         $this->assertEquals(0, $firstPage->getOffset());
         
         $nextPage = $webPaginationManager->getNextPage();
         $this->assertEquals(10, $nextPage->getOffset());
         $this->assertFalse($nextPage->getIsCurrent());
-        
         $this->assertTrue($firstPage->getIsCurrent());
     }
     
@@ -65,8 +63,6 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         
         return $webPagination;
     }
-    
-    //Helper functions
     
     public function mockHelper()
     {
@@ -92,13 +88,11 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
     }
     
     public function mockRouter()
-    {
-        
-         $spec = $this->getMockBuilder('\Symfony\Bundle\FrameworkBundle\Routing\Router')
+    {        
+        $spec = $this->getMockBuilder('\Symfony\Bundle\FrameworkBundle\Routing\Router')
                 ->disableOriginalConstructor();
         $mock = $spec->getMock();
 
-        return $mock;
-        
+        return $mock;        
     }
 }

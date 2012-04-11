@@ -2,6 +2,8 @@
 
 namespace MQM\Bundle\PaginationBundle\Pagination;
 
+use MQM\Bundle\PaginationBundle\Pagination\PageInterface;
+
 /**
  * Description of PaginationInterface
  *
@@ -10,19 +12,21 @@ namespace MQM\Bundle\PaginationBundle\Pagination;
 interface PaginationInterface {
     
     /**
-     * @return integer returns the index of array of pages
+     * Initialize pagination
+     * 
+     * @param int $totalItems
      */
-    public function getCurrentPageIndex();
+    public function init($totalItems = null);
     
-    /**
-     * @param integer set the index in the array of pages
-     */
-    public function setCurrentPageIndex($pageIndex);
-
     /**
      * @return array<PageInterface>
      */
     public function getPages();
+    
+    /**
+     * @return PageInterface
+     */
+    public function getCurrentPage();
     
     /**
      * @param integer $pageLength
@@ -43,6 +47,11 @@ interface PaginationInterface {
      * @return integer $totalItems
      */
     public function getTotalItems();
+    
+    /**
+     * @return integer 
+     */
+    public function getPagesQuantity();
     
     /**
      *
@@ -67,21 +76,10 @@ interface PaginationInterface {
      * @return PageInterface
      */
     public function getLastPage();
+    
     /**
      * @param array $array
      * @return array
      */
     public function sliceArray($array);
-    
-    /**
-     * Initialize function
-     * 
-     * Recalc pagination
-     * @param int $totalItems
-     */
-    public function calcPagination($totalItems=null);
-    
-
 }
-
-?>

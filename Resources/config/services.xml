@@ -7,14 +7,11 @@
     <parameters>
         <parameter key="mqm_pagination.page_length">6</parameter>
         <parameter key="mqm_pagination.pagination.class">MQM\Bundle\PaginationBundle\Pagination\WebPagination</parameter>  
-        <parameter key="mqm_pagination.page_factory.class">MQM\Bundle\PaginationBundle\Pagination\WebPageFactory</parameter>  
-        
+        <parameter key="mqm_pagination.page_factory.class">MQM\Bundle\PaginationBundle\Pagination\WebPageFactory</parameter>        
         <parameter key="mqm_pagination.helper.class">MQM\Bundle\PaginationBundle\Helper\Helper</parameter>
     </parameters>
 
     <services>
-        <service id="mqm_pagination" alias="mqm_pagination.pagination"/> <!-- user-friendly name that redirects to the main service of the bundle, the pagination service -->
-        
         <service id="mqm_pagination.pagination" class="%mqm_pagination.pagination.class%" public="true"
                 scope="request"
                 >
