@@ -252,7 +252,7 @@ class WebPagination implements PaginationInterface {
         return array(
             'offset' => $currentPage->getOffset(),
             'limit' => $currentPage->getLimit(),
-            'lenght' => ( $currentPage->getLimit() - $currentPage->getOffset() )
+            'length' => ( $currentPage->getLimit() - $currentPage->getOffset() )
         );
     }
     
