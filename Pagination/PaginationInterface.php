@@ -29,14 +29,14 @@ interface PaginationInterface {
     public function getCurrentPage();
     
     /**
-     * @param integer $pageLength
+     * @param integer $limitPerPage
      */
-    public function setPageLength($pageLength);
+    public function setLimitPerPage($limitPerPage);
     
     /**
-     * @return integer $pageLength
+     * @return integer $limitPerPage
      */
-    public function getPageLength();
+    public function getLimitPerPage();
     
     /**
      * @param integer $totalItems

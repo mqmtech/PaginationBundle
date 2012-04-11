@@ -22,7 +22,7 @@ class WebPagination implements PaginationInterface
      *
      * @var integer $length
      */
-    private $pageLength = self::DEF_PAGE_LENGTH;
+    private $limitPerPage = self::DEF_PAGE_LENGTH;
     
     /**
      *
@@ -92,15 +92,15 @@ class WebPagination implements PaginationInterface
     
     private function generatePages()
     {
-        $pagesCount = $this->getTotalItems() / $this->getPageLength();
+        $pagesCount = $this->getTotalItems() / $this->getLimitPerPage();
         $pagesCount = floor($pagesCount);        
-        if ($this->getTotalItems() > ($pagesCount * $this->getPageLength())) {
+        if ($this->getTotalItems() > ($pagesCount * $this->getLimitPerPage())) {
             $pagesCount+=1;
         }
 
         for ($pageIndex = 0; $pageIndex < $pagesCount; $pageIndex++) {
-            $offset = $this->getPageLength() * $pageIndex;
-            $limit = $offset + $this->getPageLength();
+            $offset = $this->getLimitPerPage() * $pageIndex;
+            $limit = $offset + $this->getLimitPerPage();
             if ($limit > $this->getTotalItems()) {
                 $limit = $this->getTotalItems();
             }            
@@ -158,10 +158,10 @@ class WebPagination implements PaginationInterface
         }
                 
         if (is_array($array)) {
-             $array = array_slice($array, $currentPage->getOffset(), $this->getPageLength());
+             $array = array_slice($array, $currentPage->getOffset(), $this->getLimitPerPage());
         }
         else if (is_a($array, 'Doctrine\ORM\PersistentCollection')) {
-                $array->slice($currentPage->getOffset(), $this->getPageLength());
+                $array->slice($currentPage->getOffset(), $this->getLimitPerPage());
              }
                 else {
                     //Do nothing
@@ -269,14 +269,14 @@ class WebPagination implements PaginationInterface
         $this->responseParameters = $responseParameters;
     }
     
-    public function setPageLength($pageLength) 
+    public function setLimitPerPage($limitPerPage) 
     {
-        $this->pageLength = $pageLength;
+        $this->limitPerPage = $limitPerPage;
     }
 
-    public function getPageLength() 
+    public function getLimitPerPage() 
     {
-        return $this->pageLength;        
+        return $this->limitPerPage;        
     }
     
     public function getPages() 

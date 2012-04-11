@@ -18,7 +18,7 @@
             <argument type="service" id="mqm_pagination.helper" />
             <argument type="service" id="mqm_pagination.page_factory" />    
                 
-            <call method="setPageLength">
+            <call method="setLimitPerPage">
                 <argument>%mqm_pagination.page_length%</argument>
             </call>
         </service>

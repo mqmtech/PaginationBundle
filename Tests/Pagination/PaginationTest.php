@@ -41,9 +41,9 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $webPaginationManager->init(30);    
 
         $this->assertEquals(0, $webPaginationManager->getCurrentPageIndex());
-        $this->assertEquals(10, $webPaginationManager->getPageLength());
+        $this->assertEquals(10, $webPaginationManager->getLimitPerPage());
         
-        $webPaginationManager->setPageLength(6);
+        $webPaginationManager->setLimitPerPage(6);
         $firstPage = $webPaginationManager->getFirstPage();
         $this->assertEquals(0, $firstPage->getOffset());
         
