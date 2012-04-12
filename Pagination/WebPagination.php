@@ -151,9 +151,8 @@ class WebPagination implements PaginationInterface
                 $array = $array->slice($currentPage->getOffset(), $currentPage->getLimit());
              }
             else {
-                //Do nothing
-                
-                }
+                //Do nothing                
+            }
                  
         return $array;
     }
