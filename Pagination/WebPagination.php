@@ -76,7 +76,7 @@ class WebPagination implements PaginationInterface
         $this->setRouter($router);
     }
     
-    public function update($totalItems = null) 
+    public function update($totalItems) 
     {
         unset($this->pages);
         $this->pages = array();
@@ -84,7 +84,7 @@ class WebPagination implements PaginationInterface
         return $this->init($totalItems);        
     }
     
-    public function init($totalItems = null) 
+    public function init($totalItems) 
     {
         if ($totalItems != null) {
             $this->setTotalItems($totalItems);

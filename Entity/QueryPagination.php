@@ -21,8 +21,9 @@ class QueryPagination implements PaginationInterface, QueryPaginationInterface
         $this->pagination->update($totalItems);
         $page = $this->pagination->getCurrentPage();
         $length = $page->getLimit() - $page->getOffset();
-        $paginateQuery = Paginate::getPaginateQuery($query, $page->getOffset(), $length); // Step 2 and 3
-        $result = $paginateQuery->getResult();
+        //$paginateQuery = Paginate::getPaginateQuery($query, $page->getOffset(), $length); // Step 2 and 3
+        //$result = $paginateQuery->getResult();
+        $result = $query->setFirstResult($page->getOffset())->setMaxResults($length)->getResult(); // Step 2
         
         return $result;
     }
@@ -30,6 +31,11 @@ class QueryPagination implements PaginationInterface, QueryPaginationInterface
     public function getCurrentPage()
     {
         return $this->pagination->getCurrentPage();
+    }
+    
+    public function getStartRange()
+    {
+        return $this->pagination->getStartRange();
     }
 
     public function getEndRange()
@@ -39,7 +45,7 @@ class QueryPagination implements PaginationInterface, QueryPaginationInterface
 
     public function getFirstPage()
     {
-        return $this->pagination->getEndRange();
+        return $this->pagination->getFirstPage();
     }
 
     public function getLastPage()
@@ -64,17 +70,14 @@ class QueryPagination implements PaginationInterface, QueryPaginationInterface
 
     public function getPrevPage()
     {
-        return $this->getPrevPage();
-    }
-
-    public function getStartRange()
-    {
-        return $this->getStartRange();
+        return $this->pagination->getPrevPage();
     }
 
     public function init($totalItems)
     {
-        return $this->pagination->init($totalItems);
+        $this->pagination->init($totalItems);
+        
+        return $this;
     }
 
     public function setLimitPerPage($limitPerPage)
@@ -89,6 +92,8 @@ class QueryPagination implements PaginationInterface, QueryPaginationInterface
 
     public function update($totalItems)
     {
-        return $this->pagination->update($totalItems);
+        $this->pagination->update($totalItems);
+        
+        return $this;
     }
 }
