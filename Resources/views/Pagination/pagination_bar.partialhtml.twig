@@ -1,0 +1,17 @@
+{% if pagination is defined and pagination != NULL and pagination.pages | length > 0%}
+<div class="pagination_container">
+    <div class="numbers_container">
+        <div class="numbers"><a href="{{ pagination.firstPage.URL }}">&#60&#60</a></div>
+        <div class="numbers"><a href="{{ pagination.getPrevPage.URL }}">&#60</a></div>        
+        {% set startRange = pagination.startRange %}
+        {% set endRange = pagination.endRange %}
+        
+        {% for count in startRange..endRange %}
+            {% set page = pagination.pages[count] %}
+            <div class="numbers{% if (page.isCurrent) %} current{% endif %}"><a href="{{page.URL}}">{{ page.id +1 }}</a></div>
+        {% endfor %}
+        <div class="numbers"><a href="{{ pagination.getNextPage.URL }}">&#62</a></div>
+        <div class="numbers lastnumber"><a href="{{ pagination.getLastPage.URL }}">&#62&#62</a></div>
+    </div>
+</div>
+{% endif %}
