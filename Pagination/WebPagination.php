@@ -139,21 +139,20 @@ class WebPagination implements PaginationInterface
         if ($array == null) {
             return null;
         }
-        $currentPage = null;
-        if (isset($this->pages[$this->getCurrentPageIndex()])) {
-             $currentPage = $this->pages[$this->getCurrentPageIndex()];
-        }
-        else {
+        $currentPage = $this->getCurrentPage();
+        if ($currentPage == null) {
             return $array;
         }
         if (is_array($array)) {
-             $array = array_slice($array, $currentPage->getOffset(), $this->getLimitPerPage());
+            $length = $currentPage->getLimit() - $currentPage->getOffset();
+            $array = array_slice($array, $currentPage->getOffset(), $length);
         }
         else if (is_a($array, 'Doctrine\ORM\PersistentCollection')) {
-                $array->slice($currentPage->getOffset(), $this->getLimitPerPage());
+                $array = $array->slice($currentPage->getOffset(), $currentPage->getLimit());
              }
             else {
                 //Do nothing
+                
                 }
                  
         return $array;
