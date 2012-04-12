@@ -22,7 +22,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('page_length')->defaultValue(10)->end()
+                ->scalarNode('limit_per_page')->defaultValue(10)->end()
+                ->scalarNode('namespace')->defaultValue('')->end()
                 ->arrayNode('pagination')
                     ->children()
                     ->scalarNode('class')->defaultValue(null)->end()

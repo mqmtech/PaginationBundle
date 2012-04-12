@@ -24,11 +24,16 @@ class MQMPaginationExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        $loader->load('orm.xml');
         
         // set user variables in the container
         $bundleNS = 'mqm_pagination';
-        if (isset($config['page_length']) && $config['page_length'] != null) {
-            $container->setParameter($bundleNS . '.page_length', $config['page_length']);
+        if (isset($config['limit_per_page']) && $config['limit_per_page'] != null) {
+            $container->setParameter($bundleNS . '.limit_per_page', $config['limit_per_page']);
+        }
+        
+        if (isset($config['namespace']) && $config['namespace'] != null) {
+            $container->setParameter($bundleNS . '.request.namespace', $config['namespace']);
         }
         
         if (isset($config['pagination'])) {

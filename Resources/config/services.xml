@@ -5,25 +5,24 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="mqm_pagination.page_length">6</parameter>
-        <parameter key="mqm_pagination.query_pagination.class">MQM\Bundle\PaginationBundle\Entity\QueryPagination</parameter>  
+        <parameter key="mqm_pagination.limit_per_page">6</parameter>
+        <parameter key="mqm_pagination.request.namespace"></parameter>
         <parameter key="mqm_pagination.pagination.class">MQM\Bundle\PaginationBundle\Pagination\WebPagination</parameter>  
         <parameter key="mqm_pagination.page_factory.class">MQM\Bundle\PaginationBundle\Pagination\WebPageFactory</parameter>        
         <parameter key="mqm_pagination.helper.class">MQM\Bundle\PaginationBundle\Helper\Helper</parameter>
     </parameters>
 
     <services>
-        <service id="mqm_pagination.query_pagination" class="%mqm_pagination.query_pagination.class%" public="true" scope="request">
-            <argument type="service" id="mqm_pagination.pagination" />
-        </service>
-        
         <service id="mqm_pagination.pagination" class="%mqm_pagination.pagination.class%" public="true" scope="request">
             <argument type="service" id="mqm_pagination.helper" />
             <argument type="service" id="mqm_pagination.page_factory" />
             <argument type="service" id="router" />
             
             <call method="setLimitPerPage">
-                <argument>%mqm_pagination.page_length%</argument>
+                <argument>%mqm_pagination.limit_per_page%</argument>
+            </call>
+            <call method="setRequestParamNamespace">
+                <argument>%mqm_pagination.request.namespace%</argument>
             </call>
         </service>
         

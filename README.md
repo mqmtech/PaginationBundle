@@ -81,7 +81,7 @@ Configuration
 
     # app/config/config.yml
     mqm_pagination:
-        page_length: 6
+        limit_per_page: 6
 
 Security
 --------

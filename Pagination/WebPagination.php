@@ -13,7 +13,7 @@ class WebPagination implements PaginationInterface
 
     private $paginationRange = 3;    
     private $requestParamNamespace = '';    
-    private $requestPageInfoParam = 'page';
+    private $requestPageInfoParamName = 'page';
     private $pageIndexDefault = self::PAGE_INDEX_DEFAULT;
     private $currentPageIndex = self::PAGE_INDEX_DEFAULT;
     private $limitPerPage = 10;
@@ -128,7 +128,7 @@ class WebPagination implements PaginationInterface
     
     private function getRequestPageIndexParamWithNamespace()
     {
-        $requestPageParamWithNamespace = $this->requestParamNamespace . $this->requestPageInfoParam;
+        $requestPageParamWithNamespace = $this->requestParamNamespace . $this->requestPageInfoParamName;
         
         return $requestPageParamWithNamespace;
     }
@@ -245,8 +245,20 @@ class WebPagination implements PaginationInterface
     public function getPages() 
     {
         return $this->pages;
-    }    
+    }
+    
+    public function setPaginationRange($paginationRange) {
+        $this->paginationRange = $paginationRange;
+    }
 
+    public function setRequestParamNamespace($requestParamNamespace) {
+        $this->requestParamNamespace = $requestParamNamespace;
+    }
+
+    public function setRequestPageInfoParamName($requestPageInfoParamName) {
+        $this->requestPageInfoParamName = $requestPageInfoParamName;
+    }
+    
     protected function getTotalItems() 
     {
         return $this->totalItems;
