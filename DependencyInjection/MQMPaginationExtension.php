@@ -36,6 +36,10 @@ class MQMPaginationExtension extends Extension
             $container->setParameter($bundleNS . '.request.namespace', $config['namespace']);
         }
         
+        if (isset($config['range']) && $config['range'] != null) {
+            $container->setParameter($bundleNS . '.pagination_range', $config['range']);
+        }
+        
         if (isset($config['pagination'])) {
             $paginationClass = $config['pagination']['class'];
             $container->setParameter($bundleNS . '.pagination.class', $paginationClass);

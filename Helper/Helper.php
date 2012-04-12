@@ -21,8 +21,8 @@ class Helper implements PaginationHelperInterface
 
     public function toQueryString($array)
     {        
-        if ($array == NULL) {
-            return NULL;
+        if ($array == null) {
+            return null;
         }        
         $querystring = "";        
         $count = 0;
