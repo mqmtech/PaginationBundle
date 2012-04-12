@@ -7,18 +7,17 @@ use MQM\Bundle\PaginationBundle\Pagination\PageInterface;
 interface PaginationInterface
 {    
     /**
-     * Initialize pagination
-     * 
-     * @param int $totalItems
-     */
-    public function init($totalItems);
-    
-    /**
      * Updates pagination
      * 
      * @param int $totalItems
      */
-    public function update($totalItems);
+    public function paginate($totalItems);    
+        
+    /**
+     * @param string
+     * @return query 
+     */
+    public function paginateQuery($query);
     
     /**
      * @return array<PageInterface>
@@ -74,5 +73,5 @@ interface PaginationInterface
      * @param array $array
      * @return array
      */
-    public function sliceArray($array);
+    public function getPaginatedElements($array);
 }

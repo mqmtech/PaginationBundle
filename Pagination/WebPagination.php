@@ -5,66 +5,24 @@ namespace MQM\Bundle\PaginationBundle\Pagination;
 use MQM\Bundle\PaginationBundle\Helper\HelperInterface;
 use MQMTech\ToolsBundle\Service\Utils;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Locale\Exception\NotImplementedException;
 
 class WebPagination implements PaginationInterface
 {
-    const REQUEST_QUERY_PARAM= 'page';
-    const PAGINATION_RANGE = 3;
-    const CURRENT_PAGE_INDEX_DEFAULT = 0;
-    const LIMIT_PER_PAGE_DEFAULT = 10;
-    
-    /**
-     *
-     * @var integer $currentPageIndex
-     */
-    private $currentPageIndex = self::CURRENT_PAGE_INDEX_DEFAULT;
-    
-    /**
-     *
-     * @var integer $length
-     */
-    private $limitPerPage = self::LIMIT_PER_PAGE_DEFAULT;
-    
-    /**
-     *
-     * @var array $pages
-     */
-    private $pages = array();    
-    
-    /**
-     *
-     * @var integer $totalItems
-     */
+    const PAGE_INDEX_DEFAULT = 0;
+
+    private $paginationRange = 3;    
+    private $requestParamNamespace = '';    
+    private $requestPageInfoParam = 'page';
+    private $pageIndexDefault = self::PAGE_INDEX_DEFAULT;
+    private $currentPageIndex = self::PAGE_INDEX_DEFAULT;
+    private $limitPerPage = 10;
+    private $pages = array();
     private $totalItems = 0;
-    
-    /**
-     *
-     * @var WebPageFactory
-     */
     private $pageFactory;
-    
-    /**
-     *
-     * @var HelperInterface
-     */
     private $helper;
-    
-    /**
-     *
-     * @var RouterInterface
-     */
     private $router;
-    
-    /**
-     *
-     * @var string
-     */
     private $responsePath;
-    
-    /**
-     *
-     * @var array
-     */
     private $responseParameters;
     
     public function __construct(HelperInterface $helper, WebPageFactory $pageFactory, RouterInterface $router, $responsePath=null, $responseParameters = null)
@@ -76,7 +34,12 @@ class WebPagination implements PaginationInterface
         $this->setRouter($router);
     }
     
-    public function update($totalItems) 
+    public function paginateQuery($query)
+    {
+        throw new NotImplementedException('paginateQuery method is not implemented by WebPagination, use QueryPagination concrete class instead');
+    }
+    
+    public function paginate($totalItems) 
     {
         unset($this->pages);
         $this->pages = array();
@@ -84,7 +47,7 @@ class WebPagination implements PaginationInterface
         return $this->init($totalItems);        
     }
     
-    public function init($totalItems) 
+    private function init($totalItems) 
     {
         if ($totalItems != null) {
             $this->setTotalItems($totalItems);
@@ -103,36 +66,36 @@ class WebPagination implements PaginationInterface
             $pagesQuantity+=1;
         }
         for ($pageIndex = 0; $pageIndex < $pagesQuantity; $pageIndex++) {
-            $page = $this->generatePageByPageId($pageIndex);            
+            $page = $this->generatePageByPageInfo($pageIndex);            
             $this->pages[$pageIndex] = $page;            
         }
     }
     
-    private function generatePageByPageId($pageId)
+    private function generatePageByPageInfo($pageInfo)
     {
-        $offset = $this->getLimitPerPage() * $pageId;
+        $offset = $this->getLimitPerPage() * $pageInfo;
         $limit = $offset + $this->getLimitPerPage();
         if ($limit > $this->getTotalItems()) {
             $limit = $this->getTotalItems();
         }            
         $page = $this->pageFactory->buildPage();
-        $page->setId($pageId);
+        $page->setId($pageInfo);
         $page->setOffset($offset);
         $page->setLimit($limit);
-        $url = $this->generateURLByPageId($pageId);
+        $url = $this->generateURLByPageInfo($pageInfo);
         $page->setURL($url);
         
         return $page;
     }
     
-    private function generateURLByPageId($pageId)
+    private function generateURLByPageInfo($pageInfo)
     {
         $url = "no_url";
         $parameters = $this->getResponseParameters();
         if ($parameters == null) {
             $parameters = $this->getHelper()->getAllParametersFromRequestAndQuery();
         }
-        $parameters[WebPagination::REQUEST_QUERY_PARAM] = $pageId;
+        $parameters[$this->getRequestPageIndexParamWithNamespace()] = $pageInfo;
         if ($this->getResponsePath() == null) {
             $path = $this->getHelper()->getURI();
             $url = $path . $this->getHelper()->toQueryString($parameters);
@@ -148,7 +111,7 @@ class WebPagination implements PaginationInterface
     {
         if ($this->getPagesQuantity() > 0) {
             $query = $this->getHelper()->getParametersByRequestMethod();       
-            $currentPage = $query->get(self::REQUEST_QUERY_PARAM) == null ? self::CURRENT_PAGE_INDEX_DEFAULT : $query->get(self::REQUEST_QUERY_PARAM);
+            $currentPage = $query->get($this->getRequestPageIndexParamWithNamespace()) == null ? $this->pageIndexDefault : $query->get($this->getRequestPageIndexParamWithNamespace());
             $lastPage = count($this->getPages()) -1;
             if ($currentPage > $lastPage) {
                 $currentPage = $lastPage;
@@ -163,7 +126,14 @@ class WebPagination implements PaginationInterface
         }  
     }
     
-    public function slicearray($array)
+    private function getRequestPageIndexParamWithNamespace()
+    {
+        $requestPageParamWithNamespace = $this->requestParamNamespace . $this->requestPageInfoParam;
+        
+        return $requestPageParamWithNamespace;
+    }
+    
+    public function getPaginatedElements($array)
     {
         if ($array == null) {
             return null;
@@ -223,7 +193,7 @@ class WebPagination implements PaginationInterface
     
     public function getStartRange()
     {
-        $start = $this->getCurrentPageIndex() - self::PAGINATION_RANGE;
+        $start = $this->getCurrentPageIndex() - $this->paginationRange;
         if ($start < 0 ) {
             $start = 0;
         }
@@ -235,7 +205,7 @@ class WebPagination implements PaginationInterface
     {
         $start = $this->getStartRange();        
         $length = $this->getPagesQuantity();
-        $end = $start + (self::PAGINATION_RANGE * 2);
+        $end = $start + ($this->paginationRange * 2);
         if ($end >= $length) {
             $end = $length - 1;
         }

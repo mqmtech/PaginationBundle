@@ -6,7 +6,7 @@ use MQM\Bundle\PaginationBundle\Pagination\QueryPaginationInterface;
 use MQM\Bundle\PaginationBundle\Pagination\PaginationInterface;
 use DoctrineExtensions\Paginate\Paginate;
 
-class QueryPagination implements PaginationInterface, QueryPaginationInterface
+class QueryPagination implements PaginationInterface
 {
     private $pagination;
             
@@ -17,17 +17,25 @@ class QueryPagination implements PaginationInterface, QueryPaginationInterface
     
     public function paginateQuery($query)
     {
-        $totalItems = Paginate::getTotalQueryResults($query); // Step 1
-        $this->pagination->update($totalItems);
-        $page = $this->pagination->getCurrentPage();
-        $length = $page->getLimit() - $page->getOffset();
-        //$paginateQuery = Paginate::getPaginateQuery($query, $page->getOffset(), $length); // Step 2 and 3
-        //$result = $paginateQuery->getResult();
-        $result = $query->setFirstResult($page->getOffset())->setMaxResults($length)->getResult(); // Step 2
+        $totalItems = Paginate::getTotalQueryResults($query);
+        $this->pagination->paginate($totalItems);
+        if($totalItems > 0) {            
+            $page = $this->pagination->getCurrentPage();
+            $length = $page->getLimit() - $page->getOffset();
+            $query = Paginate::getPaginateQuery($query, $page->getOffset(), $length); // Simple alternative with no join querys: $paginateQuery = $query->setFirstResult($page->getOffset())->setMaxResults($length);
+        }
         
-        return $result;
+        return $query;
     }
-
+    
+    
+    public function paginate($totalItems)
+    {
+        $this->pagination->paginate($totalItems);
+        
+        return $this;
+    }
+    
     public function getCurrentPage()
     {
         return $this->pagination->getCurrentPage();
@@ -73,27 +81,14 @@ class QueryPagination implements PaginationInterface, QueryPaginationInterface
         return $this->pagination->getPrevPage();
     }
 
-    public function init($totalItems)
-    {
-        $this->pagination->init($totalItems);
-        
-        return $this;
-    }
 
     public function setLimitPerPage($limitPerPage)
     {
         return $this->pagination->setLimitPerPage($limitPerPage);
     }
 
-    public function sliceArray($array)
+    public function getPaginatedElements($array)
     {
-        return $this->pagination->sliceArray($array);
-    }
-
-    public function update($totalItems)
-    {
-        $this->pagination->update($totalItems);
-        
-        return $this;
+        return $this->pagination->getPaginatedElements($array);
     }
 }
