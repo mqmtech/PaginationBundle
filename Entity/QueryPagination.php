@@ -26,8 +26,7 @@ class QueryPagination implements PaginationInterface
         }
         
         return $query;
-    }
-    
+    }    
     
     public function paginate($totalItems)
     {
