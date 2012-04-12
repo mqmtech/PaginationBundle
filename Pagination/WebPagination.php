@@ -3,6 +3,7 @@
 namespace MQM\Bundle\PaginationBundle\Pagination;
 
 use MQM\Bundle\PaginationBundle\Helper\HelperInterface;
+use MQM\Bundle\PaginationBundle\Pagination\WebPageFactory;
 use MQMTech\ToolsBundle\Service\Utils;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Locale\Exception\NotImplementedException;
@@ -36,7 +37,7 @@ class WebPagination implements PaginationInterface
     
     public function paginateQuery($query)
     {
-        throw new NotImplementedException('paginateQuery method is not implemented by WebPagination, use QueryPagination concrete class instead');
+        throw new NotImplementedException('paginateQuery method is not implemented by WebPagination, use QueryPagination class instead');
     }
     
     public function paginate($totalItems) 
@@ -63,39 +64,39 @@ class WebPagination implements PaginationInterface
         $pagesQuantity = $this->getTotalItems() / $this->getLimitPerPage();
         $pagesQuantity = floor($pagesQuantity);        
         if ($this->getTotalItems() > ($pagesQuantity * $this->getLimitPerPage())) {
-            $pagesQuantity+=1;
+            $pagesQuantity += 1;
         }
         for ($pageIndex = 0; $pageIndex < $pagesQuantity; $pageIndex++) {
-            $page = $this->generatePageByPageInfo($pageIndex);            
+            $page = $this->generatePageByPageIndex($pageIndex);            
             $this->pages[$pageIndex] = $page;            
         }
     }
     
-    private function generatePageByPageInfo($pageInfo)
+    private function generatePageByPageIndex($pageIndex)
     {
-        $offset = $this->getLimitPerPage() * $pageInfo;
+        $offset = $this->getLimitPerPage() * $pageIndex;
         $limit = $offset + $this->getLimitPerPage();
         if ($limit > $this->getTotalItems()) {
             $limit = $this->getTotalItems();
         }            
         $page = $this->pageFactory->buildPage();
-        $page->setId($pageInfo);
+        $page->setId($pageIndex);
         $page->setOffset($offset);
         $page->setLimit($limit);
-        $url = $this->generateURLByPageInfo($pageInfo);
+        $url = $this->generateURLByPageIndex($pageIndex);
         $page->setURL($url);
         
         return $page;
     }
     
-    private function generateURLByPageInfo($pageInfo)
+    private function generateURLByPageIndex($pageIndex)
     {
         $url = "no_url";
         $parameters = $this->getResponseParameters();
         if ($parameters == null) {
             $parameters = $this->getHelper()->getAllParametersFromRequestAndQuery();
         }
-        $parameters[$this->getRequestPageIndexParamWithNamespace()] = $pageInfo;
+        $parameters[$this->getRequestPageIndexParamWithNamespace()] = $pageIndex;
         if ($this->getResponsePath() == null) {
             $path = $this->getHelper()->getURI();
             $url = $path . $this->getHelper()->toQueryString($parameters);
