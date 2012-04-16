@@ -10,7 +10,7 @@
 
     <services>
         <service id="mqm_pagination.query_pagination" class="%mqm_pagination.query_pagination.class%" public="true" scope="request">
-            <argument type="service" id="mqm_pagination.pagination" />
+            <argument type="service" id="mqm_pagination.web_pagination" />
         </service>
     </services>
     
