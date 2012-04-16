@@ -7,14 +7,14 @@
     <parameters>
         <parameter key="mqm_pagination.limit_per_page">6</parameter>
         <parameter key="mqm_pagination.request.namespace"></parameter>
-        <parameter key="mqm_pagination.web_pagination_range"></parameter>        
+        <parameter key="mqm_pagination.web_pagination_range">2</parameter>        
         <parameter key="mqm_pagination.web_pagination.class">MQM\Bundle\PaginationBundle\Pagination\WebPagination</parameter>  
-        <parameter key="mqm_pagination.page_factory.class">MQM\Bundle\PaginationBundle\Pagination\WebPageFactory</parameter>        
+        <parameter key="mqm_pagination.web_page_factory.class">MQM\Bundle\PaginationBundle\Pagination\WebPageFactory</parameter>        
         <parameter key="mqm_pagination.helper.class">MQM\Bundle\PaginationBundle\Helper\Helper</parameter>
     </parameters>
 
     <services>
-        <service id="mqm_pagination.pagination" alias="mqm_pagination.query_pagination" public="true"/>
+        <service id="mqm_pagination.pagination" alias="mqm_pagination.query_pagination" public="true" scope="request"/>
         
         <service id="mqm_pagination.web_pagination" class="%mqm_pagination.web_pagination.class%" public="true" scope="request">
             <argument type="service" id="mqm_pagination.helper" />
@@ -32,7 +32,7 @@
             </call>            
         </service>
         
-        <service id="mqm_pagination.page_factory" class="%mqm_pagination.page_factory.class%" public="true">
+        <service id="mqm_pagination.page_factory" class="%mqm_pagination.web_page_factory.class%" public="true">
         </service>
         
         <service id="mqm_pagination.helper" class="%mqm_pagination.helper.class%" public="true"

@@ -37,17 +37,17 @@ class MQMPaginationExtension extends Extension
         }
         
         if (isset($config['range']) && $config['range'] != null) {
-            $container->setParameter($bundleNS . '.pagination_range', $config['range']);
+            $container->setParameter($bundleNS . '.web_pagination_range', $config['range']);
         }
         
         if (isset($config['pagination'])) {
             $paginationClass = $config['pagination']['class'];
-            $container->setParameter($bundleNS . '.pagination.class', $paginationClass);
+            $container->setParameter($bundleNS . '.web_pagination.class', $paginationClass);
         }
         
         if (isset($config['page_factory'])) {
             $pageFactoryClass = $config['page_factory']['class'];
-            $container->setParameter($bundleNS . '.page_factory.class', $pageFactoryClass);
+            $container->setParameter($bundleNS . '.web_page_factory.class', $pageFactoryClass);
         }
     }
 }
