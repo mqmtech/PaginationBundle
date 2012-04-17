@@ -45,9 +45,9 @@ class MQMPaginationExtension extends Extension
             $container->setParameter($bundleNS . '.web_pagination.class', $paginationClass);
         }
         
-        if (isset($config['page_factory'])) {
-            $pageFactoryClass = $config['page_factory']['class'];
-            $container->setParameter($bundleNS . '.web_page_factory.class', $pageFactoryClass);
+        if (isset($config['pagination_factory'])) {
+            $paginationFactoryClass = $config['pagination_factory']['class'];
+            $container->setParameter($bundleNS . '.web_pagination_factory.class', $paginationFactoryClass);
         }
     }
 }

@@ -7,11 +7,10 @@ use Symfony\Component\Routing\RouterInterface;
 use MQM\Bundle\PaginationBundle\Pagination\WebPagination;
 use MQM\Bundle\PaginationBundle\Pagination\WebPage;
 
-class WebPageFactory implements PageFactoryInterface
+class WebPaginationFactory implements PaginationFactoryInterface
 {
     private $helper;
-    private $router;
-    
+    private $router;    
     
     public function __construct(HelperInterface $helper, RouterInterface $router)
     {

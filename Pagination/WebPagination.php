@@ -3,7 +3,7 @@
 namespace MQM\Bundle\PaginationBundle\Pagination;
 
 use MQM\Bundle\PaginationBundle\Helper\HelperInterface;
-use MQM\Bundle\PaginationBundle\Pagination\WebPageFactory;
+use MQM\Bundle\PaginationBundle\Pagination\WebPaginationFactory;
 use MQMTech\ToolsBundle\Service\Utils;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Locale\Exception\NotImplementedException;
@@ -20,16 +20,16 @@ class WebPagination implements PaginationInterface
     private $limitPerPage = 10;
     private $pages = array();
     private $totalItems = 0;
-    private $pageFactory;
+    private $paginationFactory;
     private $helper;
     private $router;
     private $responsePath;
     private $responseParameters;
     
-    public function __construct(HelperInterface $helper, WebPageFactory $pageFactory, RouterInterface $router, $responsePath=null, $responseParameters = null)
+    public function __construct(HelperInterface $helper, WebPaginationFactory $paginationFactory, RouterInterface $router, $responsePath=null, $responseParameters = null)
     {
         $this->helper = $helper;
-        $this->pageFactory = $pageFactory;
+        $this->paginationFactory = $paginationFactory;
         $this->router = $router;
         $this->responsePath = $responsePath;
         $this->responseParameters = $responseParameters;        
@@ -79,7 +79,7 @@ class WebPagination implements PaginationInterface
         if ($limit > $this->getTotalItems()) {
             $limit = $this->getTotalItems();
         }            
-        $page = $this->pageFactory->createPage();
+        $page = $this->paginationFactory->createPage();
         $page->setId($pageIndex);
         $page->setOffset($offset);
         $page->setLimit($limit);

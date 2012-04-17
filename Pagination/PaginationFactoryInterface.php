@@ -5,7 +5,7 @@ namespace MQM\Bundle\PaginationBundle\Pagination;
 use MQM\Bundle\PaginationBundle\Pagination\PaginationInterface;
 use MQM\Bundle\PaginationBundle\Pagination\PageInterface;
 
-interface PageFactoryInterface
+interface PaginationFactoryInterface
 {   
     /**
      * @return PaginationInterface

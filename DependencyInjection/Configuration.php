@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('class')->defaultValue(null)->end()
                     ->end()
                 ->end()
-                ->arrayNode('page_factory')
+                ->arrayNode('pagination_factory')
                     ->children()
                     ->scalarNode('class')->defaultValue(null)->end()
                     ->end()
