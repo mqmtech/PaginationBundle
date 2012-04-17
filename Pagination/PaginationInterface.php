@@ -7,8 +7,6 @@ use MQM\Bundle\PaginationBundle\Pagination\PageInterface;
 interface PaginationInterface
 {    
     /**
-     * Updates pagination
-     * 
      * @param int $totalItems
      */
     public function paginate($totalItems);    

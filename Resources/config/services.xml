@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="mqm_pagination.twig_extension.class">MQM\Bundle\PaginationBundle\Twig\Extension\PaginationExtension</parameter>
         <parameter key="mqm_pagination.limit_per_page">6</parameter>
         <parameter key="mqm_pagination.request.namespace"></parameter>
         <parameter key="mqm_pagination.web_pagination_range">2</parameter>        
@@ -14,12 +15,16 @@
     </parameters>
 
     <services>
-        <service id="mqm_pagination.pagination" alias="mqm_pagination.query_pagination" public="true" scope="request"/>
+        <service id="mqm_pagination.pagination_manager" alias="mqm_pagination.query_pagination_manager" public="true" scope="request"/>
         
-        <service id="mqm_pagination.web_pagination" class="%mqm_pagination.web_pagination.class%" public="true" scope="request">
-            <argument type="service" id="mqm_pagination.helper" />
-            <argument type="service" id="mqm_pagination.page_factory" />
-            <argument type="service" id="router" />
+        <service id="mqm_pagination.twig_extension" class="%mqm_pagination.twig_extension.class%" public="true">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="mqm_pagination.web_pagination" class="%mqm_pagination.web_pagination.class%" public="true" scope="request"
+            factory-service="mqm_pagination.page_factory"
+            factory-method="createPaginationManager">
             
             <call method="setLimitPerPage">
                 <argument>%mqm_pagination.limit_per_page%</argument>
@@ -32,11 +37,12 @@
             </call>            
         </service>
         
-        <service id="mqm_pagination.page_factory" class="%mqm_pagination.web_page_factory.class%" public="true">
+        <service id="mqm_pagination.page_factory" class="%mqm_pagination.web_page_factory.class%" public="true" scope="request">
+            <argument type="service" id="mqm_pagination.helper" />
+            <argument type="service" id="router" />
         </service>
         
-        <service id="mqm_pagination.helper" class="%mqm_pagination.helper.class%" public="true"
-            scope="request">
+        <service id="mqm_pagination.helper" class="%mqm_pagination.helper.class%" public="true" scope="request">
             <argument type="service" id="request" />
         </service>
         

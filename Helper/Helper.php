@@ -4,16 +4,10 @@ namespace MQM\Bundle\PaginationBundle\Helper;
 
 use MQM\Bundle\PaginationBundle\Helper\HelperInterface as PaginationHelperInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class Helper implements PaginationHelperInterface
 {    
-    /**
-     *
-     * @var Request $request
-     */
     private $request;
-
 
     function __construct(Request $request) {
         $this->request = $request;
@@ -40,29 +34,27 @@ class Helper implements PaginationHelperInterface
         return $querystring;
     }
     
-    public function getURI()
+    public function getUri()
     {
-        $path = $this->getRequest()->getPathInfo();
-        $path = $this->getRequest()->getUriForPath($path);
+        $path = $this->request->getPathInfo();
+        $path = $this->request->getUriForPath($path);
         
         return $path;
     }
     
     public function getParametersByRequestMethod()
     {
-        $request = $this->getRequest();
-        
-        if ($request  == null) {
+        if ($this->request  == null) {
             return null;
         }
         
-        $method = $request->getMethod();
+        $method = $this->request->getMethod();
         $query = null;
         if ($method == 'POST') {
-            $query = $request->request;
+            $query = $this->request->request;
         }
         else {
-            $query = $request->query;
+            $query = $this->request->query;
         }
         
         return $query;
@@ -70,25 +62,14 @@ class Helper implements PaginationHelperInterface
     
     public function getAllParametersFromRequestAndQuery()
     {
-        $request = $this->getRequest();        
-        if ($request  == null) {
+        if ($this->request  == null) {
             return null;
         }        
         $parameters = array();
-        $paramRequest = $request->request->all();
-        $paramQuery = $request->query->all();
+        $paramRequest = $this->request->request->all();
+        $paramQuery = $this->request->query->all();
         $parameters = array_merge($paramQuery, $paramRequest);        
         
         return $parameters;
-    }
-    
-    protected function getRequest()
-    {
-        return $this->request;
-    }
-
-    protected function setRequest($request)
-    {
-        $this->request = $request;
     }
 }

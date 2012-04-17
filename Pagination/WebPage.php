@@ -14,12 +14,12 @@ class WebPage implements PageInterface
     private $isCurrent = false;
     private $url;
     
-    public function getURL()
+    public function getUrl()
     {
         return $this->url;
     }
     
-    public function setURL($url)
+    public function setUrl($url)
     {
         $this->url = $url;
     }

@@ -18,7 +18,7 @@ interface HelperInterface {
      *
      * @return string 
      */
-    public function getURI();
+    public function getUri();
     
     /**
      *

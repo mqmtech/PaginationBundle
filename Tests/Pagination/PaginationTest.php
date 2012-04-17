@@ -28,7 +28,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->mockHelper();
         
         $this->assertTrue($helperMock instanceof \MQM\Bundle\PaginationBundle\Helper\Helper);
-        $this->assertEquals($helperMock->getURI(), '/path/mock');
+        $this->assertEquals($helperMock->getUri(), '/path/mock');
         $this->assertEquals($helperMock->toQueryString(array('a' => 'b')), '?query=value_mock');
         
     }
@@ -38,9 +38,9 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $webPaginationManager = $this->getWebPagination();
         $this->assertNotNull($webPaginationManager);
         
-        $webPaginationManager->init(30);    
+        $webPaginationManager->paginate(30);    
 
-        $this->assertEquals(0, $webPaginationManager->getCurrentPageIndex());
+        $this->assertEquals(0, $webPaginationManager->getCurrentPage()->getId());
         $this->assertEquals(10, $webPaginationManager->getLimitPerPage());
         
         $webPaginationManager->setLimitPerPage(6);
@@ -59,7 +59,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $router = $this->mockRouter();
 
         $pageFactory = new WebPageFactory($helper, $router);
-        $webPagination = new WebPagination($helper, $pageFactory);
+        $webPagination = new WebPagination($helper, $pageFactory, $router);
         
         return $webPagination;
     }
@@ -73,7 +73,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
                 
         // Mock methods
         $helperMock->expects($this->any())
-                    ->method('getURI')
+                    ->method('getUri')
                     ->will($this->returnValue('/path/mock'));
         
         $helperMock->expects($this->any())
