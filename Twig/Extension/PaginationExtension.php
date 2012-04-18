@@ -1,6 +1,6 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Twig\Extension;
+namespace MQM\PaginationBundle\Twig\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

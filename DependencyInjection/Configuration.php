@@ -1,6 +1,6 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\DependencyInjection;
+namespace MQM\PaginationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

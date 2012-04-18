@@ -1,6 +1,6 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Pagination;
+namespace MQM\PaginationBundle\Pagination;
 
 interface PageInterface {
     

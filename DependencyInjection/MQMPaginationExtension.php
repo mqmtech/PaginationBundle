@@ -1,6 +1,6 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\DependencyInjection;
+namespace MQM\PaginationBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

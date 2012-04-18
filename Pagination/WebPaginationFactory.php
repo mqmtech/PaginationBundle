@@ -1,11 +1,11 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Pagination;
+namespace MQM\PaginationBundle\Pagination;
 
-use MQM\Bundle\PaginationBundle\Helper\HelperInterface;
+use MQM\PaginationBundle\Helper\HelperInterface;
 use Symfony\Component\Routing\RouterInterface;
-use MQM\Bundle\PaginationBundle\Pagination\WebPagination;
-use MQM\Bundle\PaginationBundle\Pagination\WebPage;
+use MQM\PaginationBundle\Pagination\WebPagination;
+use MQM\PaginationBundle\Pagination\WebPage;
 
 class WebPaginationFactory implements PaginationFactoryInterface
 {

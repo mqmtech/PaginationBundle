@@ -22,7 +22,7 @@
         "doctrine/couchdb-odm-bundle": "*"
     },
     "autoload": {
-        "psr-0": { "MQM\\Bundle\\PaginationBundle": "" }
+        "psr-0": { "MQM\\PaginationBundle": "" }
     },
-    "target-dir": "MQM/Bundle/PaginationBundle"
+    "target-dir": "MQM/PaginationBundle"
 }

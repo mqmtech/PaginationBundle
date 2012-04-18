@@ -1,8 +1,8 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Pagination;
+namespace MQM\PaginationBundle\Pagination;
 
-use MQM\Bundle\PaginationBundle\Pagination\PageInterface;
+use MQM\PaginationBundle\Pagination\PageInterface;
 
 interface PaginationInterface
 {    

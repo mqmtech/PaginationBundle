@@ -1,10 +1,10 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Pagination;
+namespace MQM\PaginationBundle\Pagination;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
-use MQM\Bundle\PaginationBundle\Helper\HelperInterface;
+use MQM\PaginationBundle\Helper\HelperInterface;
 
 class WebPage implements PageInterface
 {    

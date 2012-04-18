@@ -1,9 +1,9 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Entity;
+namespace MQM\PaginationBundle\Entity;
 
-use MQM\Bundle\PaginationBundle\Pagination\QueryPaginationInterface;
-use MQM\Bundle\PaginationBundle\Pagination\PaginationInterface;
+use MQM\PaginationBundle\Pagination\QueryPaginationInterface;
+use MQM\PaginationBundle\Pagination\PaginationInterface;
 use DoctrineExtensions\Paginate\Paginate;
 
 class QueryPagination implements PaginationInterface

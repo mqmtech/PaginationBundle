@@ -1,6 +1,6 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle;
+namespace MQM\PaginationBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

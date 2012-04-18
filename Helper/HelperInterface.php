@@ -1,6 +1,6 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Helper;
+namespace MQM\PaginationBundle\Helper;
 /**
  *
  * @author mqmtech

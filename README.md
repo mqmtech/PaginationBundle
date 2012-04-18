@@ -29,12 +29,12 @@ Add MQMPaginationBundle to your vendors:
             // ...
             [PaginationBundle]
             git=http://github.com/mqmtech/PaginationBundle.git
-            target=/bundles/MQM/Bundle/PaginationBundle
+            target=/bundles/MQM/PaginationBundle
 	
             $ php bin/vendors update
 
         - Option 2: submodule command
-            $ git submodule add git://github.com/mqmtech/PaginationBundle.git vendor/bundles/MQM/Bundle/PaginationBundle
+            $ git submodule add git://github.com/mqmtech/PaginationBundle.git vendor/bundles/MQM/PaginationBundle
 
 Add PaginationBundle to your autoload:
 

@@ -2,8 +2,8 @@
 
 namespace Symfony\Bundle\FrameworkBundle\Test\Sort;
 
-use MQM\Bundle\PaginationBundle\Pagination\WebPaginationFactory;
-use MQM\Bundle\PaginationBundle\Pagination\WebPagination;
+use MQM\PaginationBundle\Pagination\WebPaginationFactory;
+use MQM\PaginationBundle\Pagination\WebPagination;
 
 class PaginationTest extends \PHPUnit_Framework_TestCase
 {   
@@ -18,7 +18,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
     {
         $helperMock = $this->mockHelper();
         
-        $this->assertTrue($helperMock instanceof \MQM\Bundle\PaginationBundle\Helper\Helper);
+        $this->assertTrue($helperMock instanceof \MQM\PaginationBundle\Helper\Helper);
         $this->assertEquals($helperMock->getUri(), '/path/mock');
         $this->assertEquals($helperMock->toQueryString(array('a' => 'b')), '?query=value_mock');
         
@@ -57,7 +57,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
     
     public function mockHelper()
     {
-        $spec = $this->getMockBuilder('\MQM\Bundle\PaginationBundle\Helper\Helper')
+        $spec = $this->getMockBuilder('\MQM\PaginationBundle\Helper\Helper')
                 ->disableOriginalConstructor();
         $helperMock = $spec->getMock();
         $helperMock->expects($this->any())

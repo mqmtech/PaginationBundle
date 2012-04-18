@@ -1,8 +1,8 @@
 <?php
 
-namespace MQM\Bundle\PaginationBundle\Helper;
+namespace MQM\PaginationBundle\Helper;
 
-use MQM\Bundle\PaginationBundle\Helper\HelperInterface as PaginationHelperInterface;
+use MQM\PaginationBundle\Helper\HelperInterface as PaginationHelperInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class Helper implements PaginationHelperInterface
