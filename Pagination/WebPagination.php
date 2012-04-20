@@ -39,16 +39,8 @@ class WebPagination implements PaginationInterface
     {
         throw new NotImplementedException('paginateQuery method is not implemented by WebPagination, use QueryPagination class instead');
     }
-    
-    public function paginate($totalItems) 
-    {
-        unset($this->pages);
-        $this->pages = array();
-        
-        return $this->init($totalItems);        
-    }
-    
-    private function init($totalItems) 
+   
+    public function init($totalItems) 
     {
         if ($totalItems != null) {
             $this->setTotalItems($totalItems);
@@ -134,7 +126,7 @@ class WebPagination implements PaginationInterface
         return $requestPageParamWithNamespace;
     }
     
-    public function getPaginatedElements($array)
+    public function paginateArray($array)
     {
         if ($array == null) {
             return null;

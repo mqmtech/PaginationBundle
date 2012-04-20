@@ -29,7 +29,7 @@ class PaginationTest extends \PHPUnit_Framework_TestCase
         $webPaginationManager = $this->getWebPagination();
         $this->assertNotNull($webPaginationManager);
         
-        $webPaginationManager->paginate(30);    
+        $webPaginationManager->init(30);    
 
         $this->assertEquals(0, $webPaginationManager->getCurrentPage()->getId());
         $this->assertEquals(10, $webPaginationManager->getLimitPerPage());

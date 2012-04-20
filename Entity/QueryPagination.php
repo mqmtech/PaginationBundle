@@ -18,7 +18,7 @@ class QueryPagination implements PaginationInterface
     public function paginateQuery($query)
     {
         $totalItems = Paginate::getTotalQueryResults($query);
-        $this->pagination->paginate($totalItems);
+        $this->pagination->init($totalItems);
         if($totalItems > 0) {            
             $page = $this->pagination->getCurrentPage();
             $length = $page->getLimit() - $page->getOffset();
@@ -28,9 +28,9 @@ class QueryPagination implements PaginationInterface
         return $query;
     }    
     
-    public function paginate($totalItems)
+    public function init($totalItems)
     {
-        $this->pagination->paginate($totalItems);
+        $this->pagination->init($totalItems);
         
         return $this;
     }
@@ -80,14 +80,13 @@ class QueryPagination implements PaginationInterface
         return $this->pagination->getPrevPage();
     }
 
-
     public function setLimitPerPage($limitPerPage)
     {
         return $this->pagination->setLimitPerPage($limitPerPage);
     }
 
-    public function getPaginatedElements($array)
+    public function paginateArray($array)
     {
-        return $this->pagination->getPaginatedElements($array);
+        return $this->pagination->paginateArray($array);
     }
 }

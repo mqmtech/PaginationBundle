@@ -9,13 +9,19 @@ interface PaginationInterface
     /**
      * @param int $totalItems
      */
-    public function paginate($totalItems);    
+    public function init($totalItems);    
         
     /**
      * @param string
      * @return query 
      */
     public function paginateQuery($query);
+    
+    /**
+     * @param array $array
+     * @return array
+     */
+    public function paginateArray($array);
     
     /**
      * @return array<PageInterface>
@@ -66,10 +72,4 @@ interface PaginationInterface
      * @return PageInterface
      */
     public function getLastPage();
-    
-    /**
-     * @param array $array
-     * @return array
-     */
-    public function getPaginatedElements($array);
 }
