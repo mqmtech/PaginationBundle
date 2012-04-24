@@ -2,7 +2,7 @@
 
 namespace MQM\PaginationBundle\Entity;
 
-use MQM\PaginationBundle\Pagination\QueryPaginationInterface;
+
 use MQM\PaginationBundle\Pagination\PaginationInterface;
 use DoctrineExtensions\Paginate\Paginate;
 

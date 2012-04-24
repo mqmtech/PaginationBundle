@@ -4,7 +4,7 @@ namespace MQM\PaginationBundle\Pagination;
 
 use MQM\PaginationBundle\Helper\HelperInterface;
 use MQM\PaginationBundle\Pagination\WebPaginationFactory;
-use MQMTech\ToolsBundle\Service\Utils;
+
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Locale\Exception\NotImplementedException;
 

@@ -2,9 +2,9 @@
 
 namespace MQM\PaginationBundle\Pagination;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
-use MQM\PaginationBundle\Helper\HelperInterface;
+
+
+
 
 class WebPage implements PageInterface
 {    
