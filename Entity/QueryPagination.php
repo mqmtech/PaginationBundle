@@ -17,12 +17,16 @@ class QueryPagination implements PaginationInterface
     
     public function paginateQuery($query)
     {
+        if (!is_a($query, 'Doctrine\ORM\Query')){
+            throw new \Exception('Type of query not supported, it must be of type Doctrine\ORM\Query');
+        }
         $totalItems = Paginate::getTotalQueryResults($query);
         $this->pagination->init($totalItems);
         if($totalItems > 0) {            
             $page = $this->pagination->getCurrentPage();
             $length = $page->getLimit() - $page->getOffset();
-            $query = Paginate::getPaginateQuery($query, $page->getOffset(), $length); // Simple alternative with no join querys: $paginateQuery = $query->setFirstResult($page->getOffset())->setMaxResults($length);
+            //$query = Paginate::getPaginateQuery($query, $page->getOffset(), $length); // Simple alternative with no join querys: $paginateQuery = $query->setFirstResult($page->getOffset())->setMaxResults($length);
+            return $query->setFirstResult($page->getOffset())->setMaxResults($length);
         }
         
         return $query;
