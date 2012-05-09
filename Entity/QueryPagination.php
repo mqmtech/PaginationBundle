@@ -5,6 +5,7 @@ namespace MQM\PaginationBundle\Entity;
 
 use MQM\PaginationBundle\Pagination\PaginationInterface;
 use DoctrineExtensions\Paginate\Paginate;
+use Doctrine\ORM\Query;
 
 class QueryPagination implements PaginationInterface
 {
@@ -20,7 +21,7 @@ class QueryPagination implements PaginationInterface
         if (!is_a($query, 'Doctrine\ORM\Query')){
             throw new \Exception('Type of query not supported, it must be of type Doctrine\ORM\Query');
         }
-        $totalItems = Paginate::getTotalQueryResults($query);
+        $totalItems = $this->getTotalQueryResults($query);//Paginate::getTotalQueryResults($query);
         $this->pagination->init($totalItems);
         if($totalItems > 0) {            
             $page = $this->pagination->getCurrentPage();
@@ -30,8 +31,36 @@ class QueryPagination implements PaginationInterface
         }
         
         return $query;
-    }    
-    
+    }
+
+    private function getTotalQueryResults(Query $query)
+    {
+        /* @var $countQuery Query */
+        $countQuery = self::cloneQuery($query);
+        $countQuery->setHint(Query::HINT_CUSTOM_TREE_WALKERS, array('DoctrineExtensions\Paginate\CountWalker'));
+        $countQuery->setFirstResult(null)->setMaxResults(null);
+        $countQuery->setParameters($query->getParameters());
+
+        return $countQuery->getSingleScalarResult();
+    }
+
+    /**
+     * @param Query $query
+     * @return Query
+     */
+    static protected function cloneQuery(Query $query)
+    {
+        /* @var $countQuery Query */
+        $countQuery = clone $query;
+        $params = $query->getParameters();
+
+        foreach ($params as $key => $param) {
+            $countQuery->setParameter($key, $param);
+        }
+
+        return $countQuery;
+    }
+
     public function init($totalItems)
     {
         $this->pagination->init($totalItems);
