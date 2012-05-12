@@ -5,10 +5,11 @@
         <div class="numbers"><a href="{{ pagination.getPrevPage.URL }}">&#60</a></div>        
         {% set startRange = pagination.startRange %}
         {% set endRange = pagination.endRange %}
+        {% set currentPage = pagination.currentPage %}
         
         {% for count in startRange..endRange %}
             {% set page = pagination.pages[count] %}
-            <div class="numbers{% if (page.isCurrent) %} current{% endif %}"><a href="{{page.URL}}">{{ page.id +1 }}</a></div>
+            <div class="numbers{% if (page == currentPage) %} current{% endif %}"><a href="{{page.URL}}">{{ page.id +1 }}</a></div>
         {% endfor %}
         <div class="numbers"><a href="{{ pagination.getNextPage.URL }}">&#62</a></div>
         <div class="numbers lastnumber"><a href="{{ pagination.getLastPage.URL }}">&#62&#62</a></div>

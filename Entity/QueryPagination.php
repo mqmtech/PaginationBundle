@@ -4,6 +4,7 @@ namespace MQM\PaginationBundle\Entity;
 
 
 use MQM\PaginationBundle\Pagination\PaginationInterface;
+use MQM\PaginationBundle\Pagination\PageInterface;
 use DoctrineExtensions\Paginate\Paginate;
 use Doctrine\ORM\Query;
 
@@ -66,6 +67,11 @@ class QueryPagination implements PaginationInterface
         $this->pagination->init($totalItems);
         
         return $this;
+    }
+
+    public function setCurrentPage(PageInterface $page)
+    {
+        $this->pagination->setCurrentPage($page);
     }
     
     public function getCurrentPage()

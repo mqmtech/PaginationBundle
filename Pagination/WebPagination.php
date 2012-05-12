@@ -16,7 +16,7 @@ class WebPagination implements PaginationInterface
     private $requestParamNamespace = '';    
     private $requestPageIndexParamName = 'page';
     private $pageIndexDefault = self::PAGE_INDEX_DEFAULT;
-    private $currentPageIndex = self::PAGE_INDEX_DEFAULT;
+    private $currentPage = null;
     private $limitPerPage = 10;
     private $pages = array();
     private $totalItems = 0;
@@ -104,17 +104,17 @@ class WebPagination implements PaginationInterface
     {
         if ($this->getPagesQuantity() > 0) {
             $query = $this->helper->getParametersByRequestMethod();       
-            $currentPage = $query->get($this->getRequestPageIndexParamWithNamespace()) == null ? $this->pageIndexDefault : $query->get($this->getRequestPageIndexParamWithNamespace());
+            $currentPageIndex = $query->get($this->getRequestPageIndexParamWithNamespace()) == null ? $this->pageIndexDefault : $query->get($this->getRequestPageIndexParamWithNamespace());
             $lastPage = count($this->getPages()) -1;
-            if ($currentPage > $lastPage) {
-                $currentPage = $lastPage;
+            if ($currentPageIndex > $lastPage) {
+                $currentPageIndex = $lastPage;
             }
-            else if ($currentPage <= 0) {
-                $currentPage = 0;
+            else if ($currentPageIndex <= 0) {
+                $currentPageIndex = 0;
             }
-            if (isset ($this->pages[$currentPage])) {
-                $this->pages[$currentPage]->setIsCurrent(true);
-                $this->currentPageIndex = $currentPage;
+            if (isset ($this->pages[$currentPageIndex]) && $this->getCurrentPage() == null) {
+                $currentPage = $this->pages[$currentPageIndex];
+                $this->setCurrentPage($currentPage);
             }
         }  
     }
@@ -148,25 +148,41 @@ class WebPagination implements PaginationInterface
                  
         return $array;
     }
-    
+
     public function getPrevPage()
     {
-        if ($this->currentPageIndex <= 0 ) {
-            return $this->pages[$this->currentPageIndex];
+        $currentPageIndex = $this->getCurrentPageIndex();
+        if ($currentPageIndex <= 0 ) {
+            return $this->pages[$currentPageIndex];
         }
         else {
-            return $this->pages[$this->currentPageIndex - 1];
+            return $this->pages[$currentPageIndex - 1];
         }
     }
     
     public function getNextPage()
     {
-        if ($this->currentPageIndex >= $this->getPagesQuantity() -1) {
-            return $this->pages[$this->currentPageIndex];
+        $currentPageIndex = $this->getCurrentPageIndex();
+        if ($currentPageIndex >= $this->getPagesQuantity() -1) {
+            return $this->pages[$currentPageIndex];
         }
         else {
-            return $this->pages[$this->currentPageIndex + 1];
-        }        
+            return $this->pages[$currentPageIndex + 1];
+        }
+    }
+
+    private function getCurrentPageIndex() {
+        $currentPageIndex = 0;
+        $currentPage = $this->getCurrentPage();
+        for ($i = 0 ; $i < count($this->pages) ; $i++) {
+            $aPage = $this->pages[$i];
+            if ($aPage == $currentPage) {
+                $currentPageIndex = $i;
+                break;
+            }
+        }
+
+        return $currentPageIndex;
     }
     
     public function getFirstPage()
@@ -182,7 +198,8 @@ class WebPagination implements PaginationInterface
     
     public function getStartRange()
     {
-        $start = $this->currentPageIndex - $this->paginationRange;
+        $currentPageIndex = $this->getCurrentPageIndex();
+        $start = $currentPageIndex - $this->paginationRange;
         if ($start < 0 ) {
             $start = 0;
         }
@@ -201,14 +218,17 @@ class WebPagination implements PaginationInterface
         
         return $end;
     }
+
+    public function setCurrentPage(PageInterface $page)
+    {
+        $this->currentPage = $page;
+
+        return $this;
+    }
     
     public function getCurrentPage()
     {        
-        if (isset($this->pages[$this->currentPageIndex])) {
-            return $this->pages[$this->currentPageIndex];
-        }
-         
-        return null;
+        return $this->currentPage;
     }
     
     public function setLimitPerPage($limitPerPage) 

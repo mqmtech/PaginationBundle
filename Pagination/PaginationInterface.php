@@ -32,6 +32,12 @@ interface PaginationInterface
      * @return PageInterface
      */
     public function getCurrentPage();
+
+    /**
+     * @param PageInterface $page
+     * @return PaginationInterface
+     */
+    public function setCurrentPage(PageInterface $page);
     
     /**
      * @param integer $limitPerPage

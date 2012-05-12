@@ -11,7 +11,6 @@ class WebPage implements PageInterface
     private $id = 0;
     private $offset = null;
     private $limit = null;
-    private $isCurrent = false;
     private $url;
     
     public function getUrl()
@@ -43,10 +42,6 @@ class WebPage implements PageInterface
         $this->id = $id;
     }
     
-    public function getIsCurrent()
-    {
-        return $this->isCurrent;
-    }
     
     public function getLimit()
     {
@@ -56,11 +51,6 @@ class WebPage implements PageInterface
     public function getOffset()
     {
         return $this->offset;
-    }
-    
-    public function setIsCurrent($isCurrent)
-    {
-        $this->isCurrent=$isCurrent;
     }
     
     public function setLimit($limit)

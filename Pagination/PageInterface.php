@@ -38,14 +38,5 @@ interface PageInterface {
      * @return int
      */
     public function getLimit();
-    
-    /**
-     * @param bool $isCurrent
-     */
-    public function setIsCurrent($isCurrent);
-    
-    /**
-     * return boolean
-     */
-    public function getIsCurrent();    
+
 }
