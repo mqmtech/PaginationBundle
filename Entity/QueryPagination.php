@@ -123,6 +123,11 @@ class QueryPagination implements PaginationInterface
     {
         return $this->pagination->setLimitPerPage($limitPerPage);
     }
+    
+    public function getTotalItems() 
+    {
+        return $this->pagination->getTotalItems();
+    }
 
     public function paginateArray($array)
     {

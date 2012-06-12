@@ -78,4 +78,9 @@ interface PaginationInterface
      * @return PageInterface
      */
     public function getLastPage();
+    
+    /**
+     * @return integer 
+     */
+    public function getTotalItems();
 }

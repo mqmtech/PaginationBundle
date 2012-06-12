@@ -12,7 +12,7 @@
             <div class="numbers{% if (page == currentPage) %} current{% endif %}"><a href="{{page.URL}}">{{ page.id +1 }}</a></div>
         {% endfor %}
         <div class="numbers"><a href="{{ pagination.getNextPage.URL }}">&#62</a></div>
-        <div class="numbers lastnumber"><a href="{{ pagination.getLastPage.URL }}">&#62&#62</a></div>
+        <div class="numbers lastnumber" title="{{pagination.totalItems ~ ' resultados totales'}}"><a href="{{ pagination.getLastPage.URL }}">&#62&#62</a></div>
     </div>
 </div>
 {% endif %}

@@ -267,7 +267,7 @@ class WebPagination implements PaginationInterface
         $this->requestPageIndexParamName = $requestPageIndexParamName;
     }
     
-    protected function getTotalItems() 
+    public function getTotalItems() 
     {
         return $this->totalItems;
     }
