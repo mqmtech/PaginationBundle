@@ -25,6 +25,7 @@ class MQMPaginationExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         $loader->load('orm.xml');
+        $loader->load('listener.xml');
         
         // set user variables in the container
         $bundleNS = 'mqm_pagination';
