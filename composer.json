@@ -1,5 +1,5 @@
 {
-    "name": "mqm/pagination-bundle",
+    "name": "mqm-temporal/pagination-bundle",
     "type": "symfony-bundle",
     "description": "Symfony PaginationBundle",
     "keywords": ["WebTools Pagination"],
